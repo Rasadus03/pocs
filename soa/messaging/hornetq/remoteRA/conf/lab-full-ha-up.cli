@@ -1,9 +1,0 @@
-# starts servers with hornetq brokers
-
-batch
-/host=master/server-config=${lab.server.id}:add(auto-start=true,group=lab-full-ha-group)
-/host=master/server-config=${lab.server.id}/jvm=${lab.server.id}/:add(env-classpath-ignored=false,heap-size=128m,max-heap-size=256m,permgen-size=64m,max-permgen-size=128m)
-/host=master/server-config=${lab.server.id}/jvm=${lab.server.id}/:write-attribute(name=jvm-options,value=["-Xrunjdwp:transport=dt_socket,address=${lab.debugger.port},server=y,suspend=n"])
-/host=master/server-config=${lab.server.id}/:write-attribute(name=socket-binding-port-offset,value=${lab.port.offset})
-/host=master/server-config=${lab.server.id}/:start(server=${lab.server.id},blocking=false)
-run-batch

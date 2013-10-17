@@ -1,7 +1,0 @@
-batch
-/profile=full-ha/subsystem=messaging/hornetq-server=default/address-setting=${org.jboss.controlDestinationName}/:remove
-/profile=full-ha/subsystem=messaging/hornetq-server=default/jms-queue=${org.jboss.controlDestinationName}/:remove
-
-/profile=full-ha/subsystem=messaging/hornetq-server=default/address-setting=${org.jboss.bulkMessageDestinationName}/:remove
-/profile=full-ha/subsystem=messaging/hornetq-server=default/jms-queue=${org.jboss.bulkMessageDestinationName}/:remove
-run-batch

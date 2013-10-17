@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jbossesb-deployment>
-  <depends>jboss.esb.quickstart.destination:service=Queue,name=quickstart_bpm_orchestration1_service1_Request_esb</depends>
-  <depends>jboss.esb.quickstart.destination:service=Queue,name=quickstart_bpm_orchestration1_service1_Request_esb_reply</depends>
-  <depends>jboss.esb:deployment=jbpm.esb</depends>
-</jbossesb-deployment>

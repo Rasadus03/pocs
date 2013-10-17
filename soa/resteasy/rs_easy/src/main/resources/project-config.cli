@@ -1,7 +1,0 @@
-batch
-
-### deploy pojo web service application
-deploy target/${project.name}-web.war
-
-# Execute the operations
-run-batch

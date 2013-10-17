@@ -1,5 +1,0 @@
-batch
-
-deploy target/${project.name}.jar
-
-run-batch

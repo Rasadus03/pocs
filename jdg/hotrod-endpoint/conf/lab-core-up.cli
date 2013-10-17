@@ -1,4 +1,0 @@
-batch
-/host=master/server-config=${lab.core.server}:add(auto-start=false,group=${lab.core.group})
-/host=master/server-config=${lab.core.server}/:start(server=${lab.core.server},blocking=true)
-run-batch

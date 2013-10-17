@@ -1,7 +1,0 @@
-# Use a batch, so that in case the validation does not pass we don't apply the subsequent changes.
-batch
-
-
-deploy target/${project.name}.jar --name=${project.name}.jar --server-groups=
-
-run-batch

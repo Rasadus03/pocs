@@ -1,3 +1,0 @@
-<jboss-web>
-  <security-domain>${project.name}</security-domain>
-</jboss-web>

@@ -1,9 +1,0 @@
-<jboss-web>
-    <!--
-        - in stock AS7, just create an application user via $JBOSS_HOME/bin/add-user.sh
-        - for the purposes of this lab, no role is necessary
-    -->
-    <security-domain>other</security-domain>
-
-    <context-root>helloJaxWS</context-root>
-</jboss-web>
