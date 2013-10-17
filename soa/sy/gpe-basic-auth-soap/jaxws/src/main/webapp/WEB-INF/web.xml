@@ -1,0 +1,37 @@
+<web-app>
+  <servlet>
+    <servlet-name>JaxWS_Service</servlet-name>
+    <servlet-class>com.wavechain.jaxws.JaxWS_Service</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JaxWS_Service</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>HtmlAdaptor</web-resource-name>
+            <description>Test Security Framework</description>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+
+        <!--
+            - include the following http header:  Authorization
+            - value of that header will be :  "Basic " + Base64.encode(userId+":"+password)
+        -->
+        <auth-method>BASIC</auth-method>
+    </login-config>
+
+    <security-role>
+        <role-name>*</role-name>
+    </security-role>
+</web-app>
+

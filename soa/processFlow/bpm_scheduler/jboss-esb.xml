@@ -1,0 +1,97 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.0.1.xsd"
+    parameterReloadSecs="5">
+
+    <providers>        
+         <fs-provider name="FSprovider1">
+          	<fs-bus busid="startGwChannel" >
+          		<fs-message-filter
+          			directory="/home/jbride/devPOCs/soa/processFlow/bpm_scheduler/build/inputdir"
+          			input-suffix=".startProcessGW"
+          			work-suffix=".startProcessGWWorking"
+          			post-delete="true"
+          			error-delete="true"
+          		/>
+          	</fs-bus>   
+          	<fs-bus busid="startEsbChannel" >
+          		<fs-message-filter
+          			directory="/home/jbride/devPOCs/soa/processFlow/bpm_scheduler/build/inputdir"
+          			input-suffix=".startProcessESB"          			
+          			post-delete="true"
+          			error-delete="true"
+          		/>
+          	</fs-bus>
+         </fs-provider>
+         <jms-provider name="JMSProvider" connection-factory="ConnectionFactory">
+            <jms-bus busid="service1EsbChannel" >
+               <jms-message-filter dest-type="QUEUE"
+                  dest-name="queue/quickstart_bpm_orchestration1_service1_Request_esb"/>
+            </jms-bus>   
+         </jms-provider>
+      </providers>
+
+      <services>
+        
+        <service category="aimco" name="horizonNightly" description="horizonNightly" >
+            <listeners>
+                <fs-listener name="Gateway" busidref="startGwChannel" is-gateway="true" />
+                <fs-listener name="ESB-Listener" busidref="startEsbChannel"/>
+            </listeners>
+            <actions mep="OneWay">
+                <action name="create_new_process_instance" class="org.jboss.soa.esb.services.jbpm.actions.BpmProcessor">
+                    <property name="command" value="StartProcessInstanceCommand" />
+                    <property name="process-definition-name" value="realpageUDS"/>   
+                    <property name="actor" value="FrankSinatra"/>                                                 
+                    <property name="esbToBpmVars">
+                        <mapping esb="aimcoDomain" bpm="aimcoDomain" />
+                    </property>             
+                 </action>
+                <action class="org.jboss.soa.esb.actions.SystemPrintln" name="postBPMProcessing">
+                    <property name="message" value="****** post BPM processing ***********"/>
+                </action>
+
+              </actions>
+        </service>
+
+        <!--service category="aimco" name="sqlProcessing" description="sqlProcessing" >
+            <listeners>
+                <fs-listener name="Gateway" busidref="startGwChannel" is-gateway="true" />
+                <fs-listener name="ESB-Listener" busidref="startEsbChannel"/>
+            </listeners >
+            <actions mep="OneWay">
+                <action class="com.aimco.DownloadIncrementalFile" name="downloadIncrementalFile" />
+                <action name="create_new_process_instance" 
+                    class="org.jboss.soa.esb.services.jbpm.actions.BpmProcessor">
+                    <property name="command" value="StartProcessInstanceCommand" />
+                    <property name="process-definition-name" value="sqlDecision"/>   
+                    <property name="actor" value="FrankSinatra"/>                                                 
+                    <property name="esbToBpmVars">
+                        <mapping esb="aimcoDomain" bpm="aimcoDomain" />
+                        <mapping esb="BODY_CONTENT" bpm="theBody" />
+                    </property>             
+                 </action>
+                <action class="org.jboss.soa.esb.actions.SystemPrintln" name="postBPMProcessing">
+                    <property name="message" value="****** post BPM processing ***********"/>
+                </action>
+
+              </actions>
+        </service -->
+
+        <service category="aimco" name="getSQLJobInfo" description="getSQLJobInfo" invmScope="GLOBAL" >
+            <actions mep="RequestResponse">
+                <action name="getSQLJobInfo" class="com.aimco.GetSQLJobInfo" />
+            </actions>
+        </service>
+        <service category="aimco" name="fireSQLRules" description="fireSQLRules" invmScope="GLOBAL" >
+            <actions mep="RequestResponse">
+                <action name="fireSQLRules" class="com.aimco.FireSQLRules" />
+            </actions>
+        </service>
+        <service category="aimco" name="startSQLJob" description="startSQLJob" invmScope="GLOBAL" >
+            <actions mep="RequestResponse">
+                <action name="startSQLJob" class="com.aimco.StartSQLJob" />
+            </actions>
+        </service>
+        
+      </services>
+</jbossesb>

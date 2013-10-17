@@ -1,0 +1,14 @@
+batch
+
+
+###  project specific system properties
+/system-property=TRIGGER_EXCEPTION:add(value=${TRIGGER_EXCEPTION})
+/system-property=SLEEP_TIME:add(value=${SLEEP_TIME})
+
+
+
+### deploy pojo service application
+deploy target/${project.name}.jar
+
+
+run-batch

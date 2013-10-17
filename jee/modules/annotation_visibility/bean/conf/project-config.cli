@@ -1,0 +1,8 @@
+if (outcome == success) of /deployment=beanService.jar:read-resource
+    undeploy beanService.jar --all-relevant-server-groups
+end-if
+
+batch
+    # deploy EJB service
+    deploy bean/target/bean-1.0-SNAPSHOT.jar --name=beanService.jar
+run-batch

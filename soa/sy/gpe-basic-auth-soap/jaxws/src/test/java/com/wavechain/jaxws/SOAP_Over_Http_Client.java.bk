@@ -1,0 +1,77 @@
+package com.wavechain.jaxws;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceRef;
+
+import org.apache.log4j.Logger;
+
+import com.wavechain.jaxws.*;
+
+/*
+*/
+public class SOAP_Over_Http_Client {
+    
+    static Logger log = Logger.getLogger(SOAP_Over_Http_Client.class.toString());
+    static String namespaceURI = "http://jaxws.wavechain.com";
+    static String localPart = "JaxWS_ServiceService";
+    static List urlList = new ArrayList();
+    static int loops = 1;
+
+    static String header = "<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'><env:Header /><env:Body>";
+    static String footer = "</env:Body></env:Envelope>";
+    //static String footer = <ns2:echo xmlns:ns2="http://jaxws.wavechain.com"><arg0>Azra Olivia is 4 years old</arg0></ns2:echo>
+
+    public static void main(String[] args){
+        log.info("main() java.ext.dirs = "+System.getProperty("java.ext.dirs"));
+	try {
+          QName qname = new QName(namespaceURI,localPart);
+	  for(int x = 0; x < args.length ; x++) {
+	    String wsdlURL = args[x];
+            log.info("main()() wsdl = "+wsdlURL);
+            URL url = new URL(wsdlURL);
+            Service service = Service.create(url,qname); 
+            IJaxWS_Service wsPort = service.getPort(IJaxWS_Service.class);
+	    urlList.add(wsPort);
+	  }
+
+	  for(int x = 0; x < loops; x++) {
+	    callWebService();
+	  }
+
+          callWebService();
+	} catch (Exception x) {
+		x.printStackTrace();
+	}
+    }
+
+    public static void callWebService() {
+        try {
+	    Iterator iObj = urlList.iterator();
+	    while(iObj.hasNext()) {
+
+              // ((BindingProvider)wsPort).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "admin");
+              // ((BindingProvider)wsPort).getRequestContext().put( BindingProvider.PASSWORD_PROPERTY, "admin");
+	      IJaxWS_Service wsPort = (IJaxWS_Service)iObj.next();
+              String response = wsPort.echo("Azra Olivia is 4 years old");
+              log.info("callWebServices() return = "+response);
+
+/*  Appears that data structures are getting exchanged
+    However, the elements in the data structure are not making it over the wire
+*/
+              List aList = new ArrayList();
+              aList.add("element");
+              java.util.HashMap hashResponse = wsPort.exchangeComplexDataTypes(aList);
+              log.info("callWebServices() hashResponse size  = "+hashResponse.size());
+	    }
+        } catch(Throwable x){
+            x.printStackTrace();
+        }
+    }
+}

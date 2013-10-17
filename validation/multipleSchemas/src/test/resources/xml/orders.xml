@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpse:order xmlns:gpse="urn:org.jboss.gpse:0.1.0" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="${com.redhat.gpse.schema.location.property.value}"
+            >
+  <orderId>bananas</orderId>
+  <itemId>b234</itemId>
+  <quantity>e</quantity>
+</gpse:order>

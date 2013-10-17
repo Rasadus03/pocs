@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="urn:org.jboss.gpse.base:0.1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gpseBase="urn:org.jboss.gpse.base:0.1.0">
+
+	<xs:simpleType name="orderId_Type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]+" />
+            <xs:minLength value="3"></xs:minLength>
+            <xs:maxLength value="10"></xs:maxLength>
+            <xs:whiteSpace value="collapse"></xs:whiteSpace>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,97 @@
+<project name="bpm_scheduler" basedir=".">
+
+	<description>
+		${ant.project.name}
+		${line.separator}
+	</description>
+
+  <property name="deploy.exploded" value="true"/>
+
+  <property name="esb.quickstarts.base" value="/shared/source/jboss/esb/jbossesb-4.5.GA-src/product/samples/quickstarts"/>
+  <import file="${esb.quickstarts.base}/conf/base-build.xml"/>
+
+  <property name="jbossesb.inputdir" location="${build.dir}/inputdir"/>
+
+  <property name="project.process.dir" value="horizonNightly"/>
+  
+
+    <!--
+        JA Bride :  18 July 2012
+            - need domain model shared between ESB and jbpm to be in server lib directory
+            - will build and deploy domain model in this 'buildDomain' target
+    --> 
+    <property name="jboss.home" value="/opt/jboss/as/jboss-4.2.3.GA" />
+    <property name="instance" value="esb-test" />
+    <path id="classpath" >
+        <pathelement location="${build.dir}"/>
+    </path> 
+
+    <target name="buildDomain" description="builds domain model shared between ESB/jbpm and deploys to server's lib directory" >
+        <jar jarfile="${build.dir}/aimcoDomain.jar" basedir="${build.dir}/classes" includes="com/aimco/domain/**/*.class" />
+        <copy file="${build.dir}/aimcoDomain.jar" toDir="${jboss.home}/server/${instance}/lib" />
+    </target>
+
+  <target name="config">
+    <delete dir="${jbossesb.inputdir}" quiet="true"/>
+    <mkdir dir="${jbossesb.inputdir}"/>
+    <copy file="${basedir}/jboss-esb-unfiltered.xml" tofile="${basedir}/jboss-esb.xml" overwrite="true" filtering="true">
+      <filterset>
+        <filter token="INPUT_DIR" value="${jbossesb.inputdir}"/>
+      </filterset>
+    </copy>
+  </target>
+
+  <target name="quickstart-specific-assemblies">
+    <antcall target="buildDomain" />
+    <!-- copy overwrite="true" file="${project.process.dir}/processdefinition.xml" todir="${classes}" / -->
+  </target>
+	
+  <target name="run">
+		<echo message="This target is not implemented for this quickstart. Please run 'ant deploy', 'ant deployProcess' and 'ant startProcess'"/>
+	</target>
+	
+  <target name="runtest">
+    <echo message="This target is not implemented for this quickstart. Please run 'ant deployProcess' and 'ant startProcess'"/>
+  </target>
+	
+  <target name="deployProcess" description="deploys the process definition" depends="dependencies">
+    <echo>Deploy the process definition</echo>
+	<taskdef name="deployToServer" classname="org.jbpm.ant.DeployProcessToServerTask">
+		<classpath refid="exec-classpath"/>
+	</taskdef>
+	<deployToServer username="${jbpm.console.username}" password="${jbpm.console.password}" serverDeployer="${org.jboss.esb.jbpm.console.upload.url}">
+		<fileset dir="${basedir}/udsProcessFlow" includes="*"/>
+	</deployToServer>
+	<deployToServer username="${jbpm.console.username}" password="${jbpm.console.password}" serverDeployer="${org.jboss.esb.jbpm.console.upload.url}">
+		<fileset dir="${basedir}/sqlServerFlow" includes="*"/>
+	</deployToServer>
+	<deployToServer username="${jbpm.console.username}" password="${jbpm.console.password}" serverDeployer="${org.jboss.esb.jbpm.console.upload.url}">
+		<fileset dir="${basedir}/horizonFlow" includes="*"/>
+	</deployToServer>
+	<deployToServer username="${jbpm.console.username}" password="${jbpm.console.password}" serverDeployer="${org.jboss.esb.jbpm.console.upload.url}">
+		<fileset dir="${basedir}/realpageUDS" includes="*"/>
+	</deployToServer>
+	<!--deployToServer username="${jbpm.console.username}" password="${jbpm.console.password}" serverDeployer="${org.jboss.esb.jbpm.console.upload.url}">
+		<fileset dir="${basedir}/horizonNightly" includes="*"/>
+	</deployToServer -->
+  </target>
+      
+  <target name="startProcess" depends="compile" description="Sends a message to start the process instance">
+	<echo>writes a message to file to start the process instance</echo>
+	<java fork="yes" classname="com.aimco.realpage.test.WriteTestMessageToFile" failonerror="true">
+	  <arg value="${jbossesb.inputdir}"/>
+	  <arg value=".startProcessGW"/> <!-- file ext -->
+	  <arg value="Start It Up"/> <!-- the file contents -->
+	  <classpath refid="exec-classpath"/>
+	</java>
+  </target>	
+
+  <target name="display-instructions">
+    <echo message='${line.separator}******************' />
+    <echo>Quickstart deployed to target JBoss ESB/App Server at '${org.jboss.esb.server.deploy.dir}'.</echo>
+    <echo>1.  Check your ESB Server console to make sure the deployment was executed without errors.</echo>
+    <echo>2.  Run 'ant deployProcess' and 'ant startProcess' to run the Quickstart.</echo>
+    <echo>3.  Check your ESB Server console again.  The Quickstart should have produced some output.</echo>
+    <echo message='******************' />
+  </target>
+</project>

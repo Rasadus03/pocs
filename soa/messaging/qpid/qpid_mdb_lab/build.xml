@@ -1,0 +1,55 @@
+<project name="eap6_mdb_lab" default="all" >
+
+    <property environment="ENV"/>
+    <property file="build.properties" />
+    <import file="${development.base}/eap6-build.xml" />
+
+    <path id="classpath" >
+        <path refid="base.classpath" />
+        <fileset dir="${qpid.jca.dir}" >
+            <include name="qpid-client-*.jar" />
+            <include name="qpid-common-*.jar" />
+        </fileset>
+    </path>
+
+    <target name="simpleProducer" depends="testPrep" description="">
+        <antcall target="filter">
+            <param name="source.dir" value="${development.base}/src/test/resources/"/>
+            <param name="dest.dir" value="${build.dir}"/>
+        </antcall>
+
+        <java fork="yes" classname="org.jboss.qpid.test.SimpleProducer" failonerror="true">
+            <jvmarg value="-Xms16m" />
+            <jvmarg value="-Xmx64m" />
+            <jvmarg value="-Xss128k" />
+            <sysproperty key="org.jboss.queue.url.name" value="${qpid.queue.name}" />
+            <sysproperty key="log4j.configuration" value="file:${development.base}/src/test/resources/log4j.xml" />
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+
+    <target name="all" >
+        <antcall target="clean" />
+        <antcall target="deleteQpidExchange" />
+        <antcall target="createQpidExchange" />
+        <antcall target="jar">
+            <param name="comma.delimited.deps" value="${comma.delimited.deps}"/>
+        </antcall>
+        <antcall target="refresh.jboss" />
+
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="${development.base}/src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="cli.batch.cli"/>
+        </antcall>
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="${development.base}/src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="qpid-jca-config.cli"/>
+        </antcall>
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+        </antcall>
+
+    </target>
+    
+</project>

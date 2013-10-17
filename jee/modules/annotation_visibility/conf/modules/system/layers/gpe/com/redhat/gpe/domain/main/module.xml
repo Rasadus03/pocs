@@ -1,0 +1,9 @@
+<module xmlns="urn:jboss:module:1.1" name="com.redhat.gpe.domain">
+
+    <resources>
+        <resource-root path="domain-1.0-SNAPSHOT.jar"/>
+    </resources>
+
+    <dependencies>
+    </dependencies>
+</module>

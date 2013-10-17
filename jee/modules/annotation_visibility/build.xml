@@ -1,0 +1,36 @@
+<project name="annotation_visibility" default="deploy" basedir=".">
+
+    <property environment="ENV"/>
+    <property name="development.base" value="${ENV.JBOSS_PROJECTS}/pocs/base" />
+    <import file="${development.base}/eap6-build.xml" />
+
+    <target name="deploy" description="" depends="clean" >
+
+        <!-- 1)  maven compile and build all sub-projects -->
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="clean" />
+            <arg value="install"/>
+            <arg value="-Dmaven.test.skip=true"/>
+        </exec>
+
+        <!-- 2)  copy all module.xml files to $JBOSS_HOME/modules -->
+        <antcall target="filter">
+            <param name="source.dir" value="conf/modules"/>
+            <param name="dest.dir" value="${jboss.home}/modules"/>
+        </antcall>
+
+        <!-- 3)  deploy project's static libraries as JBoss Modules -->
+        <copy file="domain/target/domain-1.0-SNAPSHOT.jar" todir="${project.module.path}/com/redhat/gpe/domain/main" />
+
+        <!-- 4)  start jboss -->
+        <antcall target="refresh.jboss" />
+
+        <!-- 5)  deploy EJB singleton -->
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="bean/conf"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+    </target>
+
+</project>

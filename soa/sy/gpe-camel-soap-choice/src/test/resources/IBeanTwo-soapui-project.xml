@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="IBeanTwo" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="IBeanTwoSoapBinding" type="wsdl" bindingName="{http://domain.quickstarts.switchyard.org/}IBeanTwoSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/camel-soap-choice-two/IBeanTwo?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/camel-soap-choice-two/IBeanTwo?wsdl"><con:part><con:url>http://localhost:8080/camel-soap-choice-two/IBeanTwo?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="IBeanTwo" targetNamespace="http://domain.quickstarts.switchyard.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://domain.quickstarts.switchyard.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://domain.quickstarts.switchyard.org/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="TestDomain" type="tns:testDomain"/>
+      <xs:element name="modifyField1" type="tns:modifyField1"/>
+      <xs:element name="modifyField1Response" type="tns:modifyField1Response"/>
+      <xs:element name="modifyField2" type="tns:modifyField2"/>
+      <xs:element name="modifyField2Response" type="tns:modifyField2Response"/>
+      <xs:element name="testDomain" type="tns:testDomain"/>
+      <xs:complexType name="testDomain">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="field1" type="xs:string"/>
+          <xs:element minOccurs="0" name="field2" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="modifyField1Response">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:testDomain"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="modifyField2Response">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:testDomain"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="modifyField1">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:testDomain"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="modifyField2">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:testDomain"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="modifyField2">
+    <wsdl:part element="tns:modifyField2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifyField2Response">
+    <wsdl:part element="tns:modifyField2Response" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IBeanTwoPortType">
+    <wsdl:operation name="modifyField2">
+      <wsdl:input message="tns:modifyField2" name="modifyField2"></wsdl:input>
+      <wsdl:output message="tns:modifyField2Response" name="modifyField2Response"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IBeanTwoSoapBinding" type="tns:IBeanTwoPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="modifyField2">
+      <soap:operation soapAction="modifyField2" style="document"/>
+      <wsdl:input name="modifyField2">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="modifyField2Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IBeanTwo">
+    <wsdl:port binding="tns:IBeanTwoSoapBinding" name="IBeanTwoPort">
+      <soap:address location="http://localhost:8080/camel-soap-choice-two/IBeanTwo"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/camel-soap-choice-two/IBeanTwo</con:endpoint></con:endpoints><con:operation isOneWay="false" action="modifyField2" name="modifyField2" bindingOperationName="modifyField2" type="Request-Response" outputName="modifyField2Response" inputName="modifyField2" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/camel-soap-choice-two/IBeanTwo</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dom="http://domain.quickstarts.switchyard.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <dom:modifyField2>
+         <!--Optional:-->
+         <arg0>
+            <!--Optional:-->
+            <field1>234</field1>
+            <!--Optional:-->
+            <field2>234</field2>
+         </arg0>
+      </dom:modifyField2>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="modifyField2"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>

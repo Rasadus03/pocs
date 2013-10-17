@@ -1,0 +1,27 @@
+<project name="eap6_jpa_lab" default="all" >
+
+    <property environment="ENV"/>
+    <property file="build.properties" />
+    <import file="${development.base}/eap6-build.xml" />
+
+    <path id="classpath" >
+        <path refid="base.classpath" />
+    </path>
+
+    <target name="all" >
+        <antcall target="clean" />
+        <antcall target="war">
+            <param name="comma.delimited.deps" value="org.slf4j"/>
+        </antcall>
+        <antcall target="refresh.jboss" />
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="${development.base}/src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="cli.batch.cli"/>
+        </antcall>
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+        </antcall>
+    </target>
+    
+</project>

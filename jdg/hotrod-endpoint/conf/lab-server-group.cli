@@ -1,0 +1,8 @@
+batch
+/server-group=${lab.core.group}/:add(profile=default,socket-binding-group=standard-sockets,socket-binding-port-offset=${lab.core.port.offset})
+
+/server-group=${lab.core.group}/system-property=jdg.host/:add(value=${jdg.host},boot-time=true)
+/server-group=${lab.core.group}/system-property=jdg.hotrod.port/:add(value=${jdg.hotrod.port},boot-time=true)
+
+deploy target/${project.name}.war --name=${project.name}.war --server-groups=${lab.core.group}
+run-batch

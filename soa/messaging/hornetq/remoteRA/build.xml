@@ -1,0 +1,83 @@
+<project name="remoteRA" default="all" >
+
+    <property environment="ENV"/>
+    <property file="build.properties" />
+    <import file="${development.base}/eap6-build.xml" />
+
+    <target name="jmsTest" depends="setClasspath" description="">
+        <mkdir dir="${build.dir}" />
+        <antcall target="testPrep" />
+        <java fork="yes" classname="org.jboss.lab.JMSTestClient" failonerror="true">
+            <sysproperty key="log4j.configuration" value="file:${development.base}/src/test/resources/log4j.xml" />
+            <sysproperty key="java.util.logging.config.file" value="${development.base}/src/test/resources/hornetq.client.logging.properties" />
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+
+    <target name="all" >
+        <antcall target="clean" />
+        <antcall target="jar">
+            <param name="jar.name" value="${ant.project.name}" />
+        </antcall>
+        <antcall target="refresh.jboss" />
+
+        <!-- define server groups -->
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="conf"/>
+            <param name="cli.to.filter.and.execute" value="jboss-server-group.cli"/>
+        </antcall>
+
+        <!-- loop through comma-delimited list of server #s in ${lab.server.number.list} and start corresponding server
+           - these will be the servers with the Hornetq brokers
+        -->
+        <for list="${lab.server.number.list}" param="serverNum">
+            <sequential>
+                <var name="lab.netty.messaging.host" value="${os.hostname}" /> <!-- change me if brokers were on different IPs  -->
+                <var name="lab.server.id" value="lab-full-ha-@{serverNum}" />
+                <math result="lab.port.increment" operand1="100" operation="*" operand2="@{serverNum}" datatype="int" />
+                <math result="lab.port.offset" operand1="${lab.full.ha.port.offset}" operation="+" operand2="${lab.port.increment}" datatype="int" />
+                <math result="lab.debugger.port" operand1="${lab.full.ha.debugger.port}" operation="+" operand2="${lab.port.increment}" datatype="int" />
+                <echo message="lab.server.id=${lab.server.id} : lab.port.offset=${lab.port.offset} : lab.debugger.port = ${lab.debugger.port}" />
+                <antcall target="cli.batch">
+                    <param name="cli.source.dir" value="conf"/>
+                    <param name="cli.to.filter.and.execute" value="lab-full-ha-up.cli"/>
+                    <param name="cli.fail.on.error" value="true"/>
+                </antcall>
+            </sequential>
+        </for>
+
+        <!-- start the single server with the MDB consuming messages from the remote Hornetq broker-->
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="conf"/>
+            <param name="cli.to.filter.and.execute" value="lab-core-up.cli"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+    </target>
+
+    <target name="clean" >
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="local.bounce.all.servers" description="">
+        <antcall target="local.stop.master"  />
+        <antcall target="local.start.master" />
+        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
+            <arg value="--connect"/>
+            <arg value="--controller=${os.hostname}:${management.port}"/>
+            <arg value="/server-group=lab-full-ha-group/:start-servers"/>
+        </exec>
+        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
+            <arg value="--connect"/>
+            <arg value="--controller=${os.hostname}:${management.port}"/>
+            <arg value="/server-group=${lab.core.group}/:start-servers"/>
+        </exec>
+    </target>
+    <target name="local.start.server" description="ant local.start.server -Dserver.id=lab-full-ha-0">
+        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
+            <arg value="--connect"/>
+            <arg value="--controller=${os.hostname}:${management.port}"/>
+            <arg value="/host=master/server-config=${server.id}/:start(server=${server.id},blocking=false)"/>
+        </exec>
+    </target>
+    
+</project>

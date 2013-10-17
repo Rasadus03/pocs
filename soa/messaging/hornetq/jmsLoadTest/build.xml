@@ -1,0 +1,38 @@
+<project name="jmsLoadTest" default="provision.jboss" >
+
+    <property environment="ENV"/>
+    <property name="development.base" value="${ENV.JBOSS_PROJECTS}/devPOCs/base" />
+    <import file="${development.base}/eap6-build.xml" />
+    <property file="build.properties" />
+
+    <target name="jmsLoadTest" depends="testPrep" description="">
+        <java fork="yes" classname="org.jboss.test.messaging.JMSAPILoadTest" failonerror="true">
+            <jvmarg value="-Xms16m" />
+            <jvmarg value="-Xmx64m" />
+            <jvmarg value="-Xss128k" />
+            <sysproperty key="log4j.configuration" value="file:${development.base}/src/test/resources/log4j.xml" />
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+
+    <target name="provision.jboss" description="">
+        <antcall target="refresh.jboss" />
+        <antcall target="hornetq-config" />
+        <antcall target="execute.batch">
+            <param name="cli.source.dir" value="src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="src/main/resources/hornetq"/>
+            <param name="cli.to.filter.and.execute" value="hornetq-config-clean.cli"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+    </target>
+
+    <target name="setClasspath" depends="setInitialClasspath" >
+        <path id="classpath" >
+            <path refid="initial.classpath" />
+        </path>
+    </target>
+</project>

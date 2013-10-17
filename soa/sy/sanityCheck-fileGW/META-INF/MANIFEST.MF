@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.3
+Created-By: 1.7.0_05-icedtea-mockbuild_2012_07_09_19_42-b00 (Oracle Co
+ rporation)
+Built-By: jbride
+Implementation-Vendor: Wavechain inc.
+Implementation-Title: Wavechain Development
+Implementation-Version: 1.0.0beta2
+Dependencies: org.slf4j
+

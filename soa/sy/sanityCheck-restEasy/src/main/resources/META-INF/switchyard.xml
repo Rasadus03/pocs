@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="sanityCheck-restEasy" targetNamespace="urn:com.example.switchyard:sanityCheck-restEasy:0.0.1-SNAPSHOT">
+  <sca:composite name="sanityCheck-restEasy" targetNamespace="urn:com.example.switchyard:sanityCheck-restEasy:0.0.1-SNAPSHOT">
+    <sca:component name="sanityCheck">
+      <bean:implementation.bean class="org.jboss.gpse.SanityCheckBean"/>
+      <sca:service name="ISanityCheck">
+        <sca:interface.java interface="org.jboss.gpse.ISanityCheck"/>
+      </sca:service>
+    </sca:component>
+  </sca:composite>
+</switchyard>

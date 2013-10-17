@@ -1,0 +1,16 @@
+<project name="wavechain" default="build" basedir=".">
+
+    <target name="build" description="build" depends="clean" >
+        <mkdir dir="target" />
+        <javac debug="true" srcdir="src" destdir="target" optimize="true">
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+
+    <target name="clean" depends="" description="clean">
+        <delete dir="target" />
+    </target>
+
+    <path id="classpath" />
+
+</project>

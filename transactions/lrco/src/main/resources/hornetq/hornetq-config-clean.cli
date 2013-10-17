@@ -1,0 +1,3 @@
+batch
+/host=master/server=${lab.core.server}/subsystem=messaging/hornetq-server=default/jms-queue=${org.jboss.controlDestinationName}/:remove-messages
+run-batch

@@ -1,0 +1,43 @@
+24 May 2012
+ratwaterIBM
+org.jboss.producer.sleepTimeMillis=0
+org.jboss.consumer.sleepTimeMillis=5
+paging.path.relative.to.user.home=../../u01/jboss/hornetq/paging
+ [java] all tasks completed on ExecutorService .... control messages received in :
+     [java]     NODE_ID         completionTime (ms)
+     [java]     -------         --------------
+     [java]     6           17461
+     [java]     5           17450
+     [java]     7           17419
+     [java]     0           17296
+     [java]     8           17648
+     [java]     2           17419
+     [java]     9           17277
+     [java]     1           17634
+     [java]     3           17351
+     [java]     4           17649
+     [java] [Thread-2][JMSLoadTest] run() termination message received.... total bulk messages = 10000
+
+
+
+24 May 2012
+ratwaterIBM
+org.jboss.producer.sleepTimeMillis=0
+org.jboss.consumer.sleepTimeMillis=5
+paging.path.relative.to.user.home=../../tmp/hornetq/paging
+ [java]     NODE_ID         completionTime (ms)
+     [java]     -------         --------------
+     [java]     6           27514
+     [java]     5           27609
+     [java]     7           27689
+     [java]     0           27615
+     [java]     8           27689
+     [java]     9           27610
+     [java]     2           27537
+     [java]     1           27608
+     [java]     3           27514
+     [java]     4           27615
+     [java] [Thread-2][JMSLoadTest] run() termination message received.... total bulk messages = 10000
+
+
+

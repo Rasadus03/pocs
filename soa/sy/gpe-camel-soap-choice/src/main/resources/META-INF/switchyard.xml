@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:camel="urn:switchyard-component-camel:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:1.0" xmlns:trfm="urn:switchyard-config:transform:1.0">
+  <sca:composite name="camel-soap-choice" targetNamespace="urn:switchyard-quickstart:camel-soap-choice:1.0">
+    <sca:component name="BeanOne">
+      <bean:implementation.bean class="org.switchyard.quickstarts.domain.BeanOne"/>
+      <sca:service name="IBeanOne">
+        <sca:interface.java interface="org.switchyard.quickstarts.domain.IBeanOne"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="IBeanOnePortType" promote="BeanOne/IBeanOne">
+      <sca:interface.wsdl interface="IBeanOne.wsdl#wsdl.porttype(IBeanOnePortType)"/>
+      <soap:binding.soap>
+        <soap:contextMapper/>
+        <soap:wsdl>IBeanOne.wsdl</soap:wsdl>
+        <soap:wsdlPort>IBeanOnePort</soap:wsdlPort>
+        <soap:contextPath>camel-soap-choice-one</soap:contextPath>
+      </soap:binding.soap>
+    </sca:service>
+    <sca:component name="BeanTwo">
+      <bean:implementation.bean class="org.switchyard.quickstarts.domain.BeanTwo"/>
+      <sca:service name="IBeanTwo">
+        <sca:interface.java interface="org.switchyard.quickstarts.domain.IBeanTwo"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="IBeanTwoPortType" promote="BeanTwo/IBeanTwo">
+      <sca:interface.wsdl interface="IBeanTwo.wsdl#wsdl.porttype(IBeanTwoPortType)"/>
+      <soap:binding.soap>
+        <soap:contextMapper/>
+        <soap:wsdl>IBeanTwo.wsdl</soap:wsdl>
+        <soap:wsdlPort>IBeanTwoPort</soap:wsdlPort>
+        <soap:contextPath>camel-soap-choice-two</soap:contextPath>
+      </soap:binding.soap>
+    </sca:service>
+    <sca:component name="CamelChoice">
+      <camel:implementation.camel>
+        <camel:xml path="META-INF/route.xml"/>
+      </camel:implementation.camel>
+      <sca:reference name="IBeanOne">
+        <sca:interface.java interface="org.switchyard.quickstarts.domain.IBeanOne"/>
+      </sca:reference>
+      <sca:reference name="IBeanTwo">
+        <sca:interface.java interface="org.switchyard.quickstarts.domain.IBeanTwo"/>
+      </sca:reference>
+      <sca:service name="ICamelChoice">
+        <sca:interface.wsdl interface="IBeanCombined.wsdl#wsdl.porttype(IBeanCombinedPortType)"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="IBeanCombinedPortType" promote="CamelChoice/ICamelChoice">
+      <sca:interface.wsdl interface="IBeanCombined.wsdl#wsdl.porttype(IBeanCombinedPortType)"/>
+      <soap:binding.soap>
+        <soap:contextMapper/>
+        <soap:wsdl>IBeanCombined.wsdl</soap:wsdl>
+        <soap:wsdlPort>IBeanCombinedPort</soap:wsdlPort>
+        <soap:contextPath>camel-soap-choice-combined</soap:contextPath>
+      </soap:binding.soap>
+    </sca:service>
+  </sca:composite>
+  <transforms>
+    <trfm:transform.jaxb from="{http://domain.quickstarts.switchyard.org/}modifyField1" to="java:org.switchyard.quickstarts.domain.TestDomain" contextPath="org.switchyard.quickstarts.domain"/>
+    <trfm:transform.jaxb from="java:org.switchyard.quickstarts.domain.TestDomain" to="{http://domain.quickstarts.switchyard.org/}modifyField1Response" contextPath="org.switchyard.quickstarts.domain"/>
+    <trfm:transform.jaxb from="{http://domain.quickstarts.switchyard.org/}modifyField2" to="java:org.switchyard.quickstarts.domain.TestDomain" contextPath="org.switchyard.quickstarts.domain"/>
+    <trfm:transform.jaxb from="java:org.switchyard.quickstarts.domain.TestDomain" to="{http://domain.quickstarts.switchyard.org/}modifyField2Response" contextPath="org.switchyard.quickstarts.domain"/>
+  </transforms>
+</switchyard>

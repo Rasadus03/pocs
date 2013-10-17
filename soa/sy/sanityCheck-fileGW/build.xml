@@ -1,0 +1,24 @@
+<project name="sanityCheck_fileGW" default="all" >
+
+    <property environment="ENV"/>
+    <property file="build.properties" />
+    <import file="${development.base}/eap6-build.xml" />
+
+    <target name="all" >
+        <antcall target="clean" />
+        <antcall target="jar" >
+            <param name="comma.delimited.deps" value="org.slf4j"/>
+        </antcall>
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="src/main/resources"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+        </antcall>
+    </target>
+
+    <target name="setClasspath" depends="setInitialClasspath" >
+        <path id="classpath" >
+            <path refid="initial.classpath" />
+        </path>
+    </target>
+    
+</project>
