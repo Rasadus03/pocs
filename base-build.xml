@@ -263,7 +263,7 @@
         </exec>
     </target>
 
-    <target name="local.bounce.ha" description="">
+    <target name="local.bounce.lab" description="">
         <if><not><equals arg1="group.stop" arg2="false" /></not><then>
             <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
                 <arg value="--connect"/>
@@ -274,49 +274,7 @@
         <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
             <arg value="--connect"/>
             <arg value="--controller=${os.hostname}:${management.port}"/>
-            <arg value="/server-group=ha.group/:start-servers"/>
-        </exec>
-    </target>
-    <target name="local.bounce.bpm.core" description="">
-        <if><not><equals arg1="group.stop" arg2="false" /></not><then>
-            <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
-                <arg value="--connect"/>
-                <arg value="--controller=${os.hostname}:${management.port}"/>
-                <arg value="/server-group=${bpm.core.group}/:stop-servers"/>
-            </exec>
-        </then></if>
-        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
-            <arg value="--connect"/>
-            <arg value="--controller=${os.hostname}:${management.port}"/>
-            <arg value="/server-group=${bpm.core.group}/:start-servers"/>
-        </exec>
-    </target>
-    <target name="local.bounce.bpms.webs" description="">
-        <if><not><equals arg1="group.stop" arg2="false" /></not><then>
-            <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
-                <arg value="--connect"/>
-                <arg value="--controller=${os.hostname}:${management.port}"/>
-                <arg value="/server-group=${bpms.webs.group}/:stop-servers"/>
-            </exec>
-        </then></if>
-        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
-            <arg value="--connect"/>
-            <arg value="--controller=${os.hostname}:${management.port}"/>
-            <arg value="/server-group=${bpms.webs.group}/:start-servers"/>
-        </exec>
-    </target>
-    <target name="local.bounce.sy" description="">
-        <if><not><equals arg1="group.stop" arg2="false" /></not><then>
-            <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
-                <arg value="--connect"/>
-                <arg value="--controller=${os.hostname}:${management.port}"/>
-                <arg value="/server-group=${sy.core.group}/:stop-servers"/>
-            </exec>
-        </then></if>
-        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
-            <arg value="--connect"/>
-            <arg value="--controller=${os.hostname}:${management.port}"/>
-            <arg value="/server-group=${sy.core.group}/:start-servers"/>
+            <arg value="/server-group=${lab.core.group}/:start-servers"/>
         </exec>
     </target>
 
@@ -327,19 +285,7 @@
         </if>
         <antcall target="local.stop.master"  />
         <antcall target="local.start.master" />
-        <antcall target="local.bounce.ha" />
-        <if>
-            <equals arg1="${org.jboss.processFlow.provision.bpmCore}" arg2="true" />
-            <then><antcall target="local.bounce.bpm.core"  ><param name="group.stop" value="false"/></antcall></then>
-        </if>
-        <if>
-            <equals arg1="${org.jboss.processFlow.provision.bpmsWebs}" arg2="true" />
-            <then><antcall target="local.bounce.bpms.webs"  ><param name="group.stop" value="false"/></antcall></then>
-        </if>
-        <if>
-            <equals arg1="${org.jboss.processFlow.provision.switchyard}" arg2="true" />
-            <then><antcall target="local.bounce.sy"  ><param name="group.stop" value="false"/></antcall></then>
-        </if>
+        <antcall target="local.bounce.lab" />
     </target>
     <target name="local.stop.master" description="default behavior is to shutdown all jboss servers via management port of 9999" >
         <exec executable="bash" failonerror="true" dir="." >

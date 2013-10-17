@@ -18,6 +18,7 @@
     </dependency>
   </dependencies>
 
+  <!-- use jandex to explicitly index annotations in domain model jar deployed as static module -->
   <build>
     <plugins>
       <plugin>
@@ -30,9 +31,7 @@
             <goals>
               <goal>jandex</goal>
             </goals>
-            <!-- phase is 'process-classes by default' -->
             <configuration>
-              <!-- Nothing needed here for simple cases -->
             </configuration>
           </execution>
         </executions>

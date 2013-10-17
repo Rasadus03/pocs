@@ -5,5 +5,9 @@
     </resources>
 
     <dependencies>
+
+        <!-- JPA annotations so need dependency on this peristence API module -->
+        <module name="javax.persistence.api" />
+
     </dependencies>
 </module>
