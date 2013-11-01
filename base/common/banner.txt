@@ -1,0 +1,4 @@
+
+:data-uri:
+
+image::../common/images/rhheader.png[width=1024,height=152,align="center"]
