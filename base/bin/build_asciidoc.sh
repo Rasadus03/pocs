@@ -1,10 +1,27 @@
 #!/bin/sh
+
+# usage:  build_asciidoc.sh /path/to/asciidoc/source/content -maxWidth=1366px 
+
+
 echo "############################################################################################################################### "
-echo "  Allslides per module are put into a single slide show sytled page."	
+echo "  Allslides per module are put into a single slide show styled page."	
 echo "############################################################################################################################### "
 
-ASCIIDOC_SLIDE="asciidoc -f $JBOSS_PROJECTS/pocs/base/common/conf/slidy.conf -b html5 -a max-width=1024px -a icons --theme=gpe_slide_theme -a encoding=ISO-8859-1"
-#ASCIIDOC_SLIDE="asciidoc -b html5 -a max-width=1024px -a icons --theme=gpe_slide_theme -a encoding=ISO-8859-1"
+for var in $@
+do
+    case $var in
+        -maxWidth=*)
+            -maxWidth=`echo $var | cut -f2 -d\=`
+            ;;
+    esac
+done
+
+if [ "x$maxWidth" = "x" ]; then
+        maxWidth=1024px
+fi
+
+
+ASCIIDOC_SLIDE="asciidoc -f $JBOSS_PROJECTS/pocs/base/common/conf/slidy.conf -b html5 -a max-width=$maxWidth -a icons --theme=gpe_slide_theme -a encoding=ISO-8859-1"
 
 DIRNAME=`basename $@`
 OUTDIR=target

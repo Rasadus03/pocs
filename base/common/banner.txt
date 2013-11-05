@@ -1,4 +1,4 @@
 
 :data-uri:
 
-image::../common/images/rhheader.png[width=1024,height=152,align="center"]
+image::https://raw.github.com/jboss-sso/pocs/master/base/common/images/rhheader.png[width=1024,height=152,align="center"]
