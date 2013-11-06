@@ -196,7 +196,7 @@
         <then><property name="cli.fail.on.error" value="true" /></then></if>
         <if><not><isset property="jbossCliXmx"/></not>
         <then><property name="jbossCliXmx" value="128m" /></then></if>
-        <exec executable="${development.base}/bin/local.jboss.domain.sh" failonerror="${cli.fail.on.error}" >
+        <exec executable="${development.base}/base/bin/local.jboss.domain.sh" failonerror="${cli.fail.on.error}" >
             <arg value="executeCli"/>
             <arg value="-jbossHome=${jboss.home}"/>
             <arg value="-jbossCliXmx=${jbossCliXmx}" />
@@ -236,7 +236,7 @@
             <param name="dest.dir" value="${dest.dir}"/>
         </antcall>
         <echo message="***** cli.batch :  about to execute following batch script = ${dest.dir}/${cli.to.filter.and.execute} : cli.fail.on.error = ${cli.fail.on.error} : jbossCliXmx = ${jbossCliXmx}"/>
-        <exec executable="${development.base}/bin/local.jboss.domain.sh" failonerror="${cli.fail.on.error}" >
+        <exec executable="${development.base}/base/bin/local.jboss.domain.sh" failonerror="${cli.fail.on.error}" >
             <arg value="executeCli"/>
             <arg value="-jbossHome=${jboss.home}"/>
             <arg value="-hostName=${server.ip.address}" />
@@ -289,7 +289,7 @@
     </target>
     <target name="local.stop.master" description="default behavior is to shutdown all jboss servers via management port of 9999" >
         <exec executable="bash" failonerror="true" dir="." >
-           <arg value="${development.base}/bin/local.jboss.domain.sh"/>
+           <arg value="${development.base}/base/bin/local.jboss.domain.sh"/>
            <arg value="stop"/>
            <arg value="-hostName=${os.hostname}"/>
            <arg value="-cliPort=${management.port}"/>
@@ -297,13 +297,13 @@
            <arg value="-jbossHome=${jboss.home}"/>
         </exec>
         <exec executable="bash" failonerror="true" dir="." >
-           <arg value="${development.base}/bin/local.jboss.domain.sh"/>
+           <arg value="${development.base}/base/bin/local.jboss.domain.sh"/>
            <arg value="killJbossProcesses"/>
         </exec>
     </target>
     <target name="local.start.master">
         <exec executable="bash" failonerror="true" dir="." >
-           <arg value="${development.base}/bin/local.jboss.domain.sh"/>
+           <arg value="${development.base}/base/bin/local.jboss.domain.sh"/>
            <arg value="start"/>
            <arg value="-jbossDomainBaseDir=${jboss.domain.base.dir}"/>
            <arg value="-domainConfig=${domain.config.file}"/>

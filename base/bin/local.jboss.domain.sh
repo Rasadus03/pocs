@@ -229,71 +229,12 @@ function killJbossProcesses() {
     done
 }
 
-# example:   ./bin/local.jboss.domain.sh smokeTest -deployId=com.redhat.gpe.test:test-module:1.0.0-SNAPSHOT
-function smokeTest() {
-    if [ "x$userId" = "x" ]; then
-        userId=jboss
-    fi
-    if [ "x$password" = "x" ]; then
-        password=brms
-    fi
-    if [ "x$port" = "x" ]; then
-        port=8330
-    fi
-    if [ "x$webContext" = "x" ]; then
-        webContext=kie-jbpm-services
-    fi
-    if [ "x$deployId" = "x" ]; then
-        deployId=git-playground
-    fi
-
-    # list all process definitions for designated deployment
-    curl -v -u $userId:$password -X GET http://$HOSTNAME:$port/$webContext/rest/additional/runtime/$deployId/processes
-
-    # start an instance of simpleTask
-    curl -v -u $userId:$password -X POST -d 'map_bonusAmount=1500' -d 'map_selectedEmployee=Alex' http://$HOSTNAME:$port/$webContext/rest/runtime/$deployId/process/simpleTask/start
-
-    #  NOTE:  as per org.kie.services.remote.rest.TaskResource, query paramter logic as follows:
-    #    1)  specify value for one of the following:   businessAdministrator, potentialOwner or taskOwner
-    #                    or
-    #            a value for:  processInstanceId 
-    #
-    #         NOTE:  "status" and "language" are optional query paramters
-    #
-    #                OR
-    #
-    #     2)  specify value for taskId
-    #                OR
-    #     3)  specify value for workItemId
-
-    # query for all tasks with status=Ready and any potential owner (which includes task that don't currently have an owner)
-    curl -v -u $userId:$password -X GET http://$HOSTNAME:$port/$webContext/rest/task/query?potentialOwner= > /tmp/humanTasks.txt
-    eval taskId=\"`xmlstarlet sel -t -n -m '//task-summary-list/task-summary[1]' -v 'id' -n /tmp/humanTasks.txt`\"
-
-    #ensure no whitespace in taskId
-    taskId=`echo $taskId | tr -d ' '`
-    if [ "x$taskId" = "x" ]; then
-        echo -en "\n unable to locate any tasks in any Ready state\n"
-        exit 1;
-    fi
-
-    curl -u $userId:$password -X POST http://$HOSTNAME:$port/$webContext/rest/task/$taskId/claim
-    curl -v -u $userId:$password -X POST http://$HOSTNAME:$port/$webContext/rest/task/$taskId/start
-    curl -v -u $userId:$password -X GET http://$HOSTNAME:$port/$webContext/rest/task/$taskId/content
-    curl -v -u $userId:$password -X POST -d 'map_bonusAmount=1501' -d 'map_selectedEmployee=Azra' http://$HOSTNAME:$port/$webContext/rest/task/$taskId/complete
-
-    # claim next available task
-    # study org.kie.services.client.serialization.jaxb.JaxbCommandsRequest to understand http request payload
-    #curl -v -u $userId:$password -H "Content-Type:application/xml" -d '<command-request><deployment-id>$deployId</deployment-id><process-instance-id>1</process-instance-id><claim-next-available-task/></command-request>' -X POST http://$HOSTNAME:$port/$webContext/rest/task/execute
-    #curl -v -u $userId:$password -H "Content-Type:application/xml" -d '<command-request><deployment-id>$deployId</deployment-id><process-instance-id>1</process-instance-id><claim-task id="1" /></command-request>' -X POST http://$HOSTNAME:$port/$webContext/rest/task/execute
-}
-
 
 case "$1" in
-    start|stop|restart|executeCli|refreshSlaveHosts|killJbossProcesses|smokeTest)
+    start|stop|restart|executeCli|refreshSlaveHosts|killJbossProcesses)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {start|stop|restart|executeAddUser|executeCli|refreshSlaveHosts|killJbossProcesses|smokeTest}"
+    echo 1>&2 $"Usage: $0 {start|stop|restart|executeAddUser|executeCli|refreshSlaveHosts|killJbossProcesses}"
     exit 1
 esac
