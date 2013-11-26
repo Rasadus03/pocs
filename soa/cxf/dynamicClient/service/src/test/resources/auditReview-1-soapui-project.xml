@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="auditReview-1" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="AuditReviewSoapBinding" type="wsdl" bindingName="{urn:com.redhat.gpe.auditReview:1.0}AuditReviewSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/auditReview-1.0/AuditReview?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/auditReview-1.0/AuditReview?wsdl"><con:part><con:url>http://localhost:8080/auditReview-1.0/AuditReview?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="AuditReview" targetNamespace="urn:com.redhat.gpe.auditReview:1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:com.redhat.gpe.auditReview:1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="urn:com.redhat.gpe.auditReview:1.0" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="policy" type="tns:policy"/>
+      <xs:element name="reviewQuote" type="tns:reviewQuote"/>
+      <xs:element name="reviewQuoteResponse" type="tns:reviewQuoteResponse"/>
+      <xs:complexType name="reviewQuote">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:policy"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="policy">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="driver" type="tns:driver"/>
+          <xs:element minOccurs="0" name="policyType" type="xs:string"/>
+          <xs:element name="price" type="xs:int"/>
+          <xs:element name="priceDiscount" type="xs:int"/>
+          <xs:element minOccurs="0" name="requestDate" type="xs:dateTime"/>
+          <xs:element name="vehicleYear" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="driver">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="age" type="xs:int"/>
+          <xs:element minOccurs="0" name="creditScore" type="xs:int"/>
+          <xs:element minOccurs="0" name="dlNumber" type="xs:string"/>
+          <xs:element minOccurs="0" name="driverName" type="xs:string"/>
+          <xs:element minOccurs="0" name="numberOfAccidents" type="xs:int"/>
+          <xs:element minOccurs="0" name="numberOfTickets" type="xs:int"/>
+          <xs:element minOccurs="0" name="ssn" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reviewQuoteResponse">
+        <xs:sequence>
+          <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="reviewQuoteResponse">
+    <wsdl:part element="tns:reviewQuoteResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reviewQuote">
+    <wsdl:part element="tns:reviewQuote" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AuditReview">
+    <wsdl:operation name="reviewQuote">
+      <wsdl:input message="tns:reviewQuote" name="reviewQuote"></wsdl:input>
+      <wsdl:output message="tns:reviewQuoteResponse" name="reviewQuoteResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AuditReviewSoapBinding" type="tns:AuditReview">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="reviewQuote">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="reviewQuote">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reviewQuoteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AuditReview">
+    <wsdl:port binding="tns:AuditReviewSoapBinding" name="AuditReviewPort">
+      <soap:address location="http://localhost:8080/auditReview-1.0/AuditReview"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/auditReview-1.0/AuditReview</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="reviewQuote" bindingOperationName="reviewQuote" type="Request-Response" outputName="reviewQuoteResponse" inputName="reviewQuote" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/auditReview-1.0/AuditReview</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:com.redhat.gpe.auditReview:1.0">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:reviewQuote>
+         <!--Optional:-->
+         <arg0>
+            <!--Optional:-->
+            <driver>
+               <!--Optional:-->
+               <age>35</age>
+               <!--Optional:-->
+               <creditScore>800</creditScore>
+               <!--Optional:-->
+               <dlNumber>CO234</dlNumber>
+               <!--Optional:-->
+               <driverName>Alex</driverName>
+               <!--Optional:-->
+               <numberOfAccidents>0</numberOfAccidents>
+               <!--Optional:-->
+               <numberOfTickets>0</numberOfTickets>
+               <!--Optional:-->
+               <ssn>234234234</ssn>
+            </driver>
+            <!--Optional:-->
+            <policyType>Vehicle</policyType>
+            <price>0</price>
+            <priceDiscount>0</priceDiscount>
+            <vehicleYear>2013</vehicleYear>
+         </arg0>
+      </urn:reviewQuote>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:com.redhat.gpe.auditReview:1.0/AuditReview/reviewQuote"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>

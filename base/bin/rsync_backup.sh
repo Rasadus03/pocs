@@ -10,7 +10,7 @@ CUSTOMERS_HOME=/u02/customers/oldSoftware
 MOVIES_HOME=/u02/movies
 DOWNLOADS_HOME=/u02/downloads
 VIRTUAL_MACHINES=/u02/virtual_machines
-RECORDINGS=/u02/recordings
+RECORDINGS=/u02/redhat/recordings
 
 REMOTE_USER=jbride
 REMOTE_IP=localhost
@@ -71,7 +71,7 @@ syncLocalWithBackup() {
 
     cd $VIRTUAL_MACHINES   
     echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
-    #rsync -trv . --exclude=.* $RSYNC_PATH/virtual_machines    
+    rsync -trv --delete . --exclude=.* $RSYNC_PATH/virtual_machines    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
@@ -79,7 +79,7 @@ syncLocalWithBackup() {
 
     cd $RECORDINGS
     echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
-    rsync -trv . --exclude=.* $RSYNC_PATH/recordings    
+    rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    

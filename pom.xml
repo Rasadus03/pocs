@@ -13,10 +13,12 @@
     <version.org.codehaus.jackson>1.9.9</version.org.codehaus.jackson>
     <version.org.apache.camel>2.10.3</version.org.apache.camel>
     <version.org.jboss.resteasy>2.3.6.Final</version.org.jboss.resteasy>
+    <version.junit>4.9</version.junit>
   </properties>
 
   <modules>
     <module>jee</module>
+    <module>soa</module>
   </modules>
 
   <dependencyManagement>
@@ -73,6 +75,20 @@
         <artifactId>camel-core</artifactId>
         <version>${version.org.apache.camel}</version>
       </dependency>
+      <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.2</version>
+      </dependency>
+
+      <!-- test -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
+        <version>${version.junit}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 </project>
