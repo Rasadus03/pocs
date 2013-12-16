@@ -13,6 +13,7 @@ Overview
     Caused by: java.lang.ClassCastException: org.acme.insurance.Policy cannot be cast to auditreview.gpe.redhat.com._1.Policy
 
     - seems that CXF dynamic client is generating client proxy classes whose package name is:  auditreview.gpe.redhat.com._1
+    - to invoke the remote SOAP service, package name should be:  org.acme.insurance
     - how can CXF be configured to specify a custom package name for dynamically generated client classes ?
         - essentially the equivalent of passing the '-p' flag to:  $JBOSS_HOME/bin/wsconsume.sh 
 
