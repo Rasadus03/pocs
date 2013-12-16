@@ -24,7 +24,7 @@ LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/g4
 syncLocalWithBackup() {
     cd $HOME    
     echo " ***** now synching in : $RSYNC_PATH with $HOME"    
-    rsync -trv --delete . --include=.bash_profile --include=./My\ Kindle\ Content --include=.ssh/id_dsa.pub --exclude=.* --exclude=downloads $RSYNC_PATH/jbride    
+    rsync -trv --delete . --include=.bash_profile --include=./My\ Kindle\ Content --include=.ssh/* --include=.m2/* --exclude=.* --exclude=downloads $RSYNC_PATH/jbride    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
