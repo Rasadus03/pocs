@@ -2,7 +2,7 @@
 
     <property environment="ENV"/>
     <property file="build.properties" />
-    <import file="${development.base}/eap6-build.xml" />
+    <import file="${development.base}/build.xml" />
 
     <target name="jmsTest" depends="setClasspath" description="">
         <antcall target="testPrep" />
@@ -18,6 +18,8 @@
             <arg value="clean" />
             <arg value="install" />
             <arg value="-Dmaven.test.skip=true" />
+            <arg value="-s" />
+            <arg value="${maven.settings.file}" />
         </exec>
     </target>
 

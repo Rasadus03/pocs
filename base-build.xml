@@ -352,6 +352,8 @@
     <target name="clean" >
         <exec executable="mvn" failonerror="true" dir="." >
             <arg value="clean" />
+            <arg value="-s" />
+            <arg value="${maven.settings.file}" />
         </exec>
     </target>
 
