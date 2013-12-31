@@ -18,13 +18,13 @@ REMOTE_IP=localhost
 RSYNC_PATH="/run/media/jbride/_u03"
 
 RSYNC_DROID_PATH="/home/jbride/Misc/Nexus4/"
-LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/g4
+LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/Nexus4
 
 
-syncLocalWithBackup() {
+syncBackupFromLocal() {
     cd $HOME    
     echo " ***** now synching in : $RSYNC_PATH with $HOME"    
-    rsync -trv --delete . --include=.bash_profile --include=./My\ Kindle\ Content --include=.ssh/* --include=.m2/* --exclude=.* --exclude=downloads $RSYNC_PATH/jbride    
+    rsync -trv --delete . --include=.bashrc --include=./My\ Kindle\ Content --include=.ssh --include=.m2 --exclude=.* --exclude=downloads $RSYNC_PATH/jbride    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
@@ -86,7 +86,7 @@ syncLocalWithBackup() {
     fi    
 }
 
-syncDroidWithLocal() {
+syncDroidFromLocal() {
     cd $MUSIC_HOME/default    
     echo " ***** now synching in : $MUSIC_HOME at :  $RSYNC_DROID_PATH/Music/default"    
     rsync -trv --delete . $RSYNC_DROID_PATH/Music/default 
@@ -96,7 +96,7 @@ syncDroidWithLocal() {
     fi    
 }
 
-syncLocalWithDroid() {
+syncLocalFromDroid() {
     cd $RSYNC_DROID_PATH/DCIM
     echo " ***** now synching in : $LOCAL_DROID_PHOTOS_PATH with $RSYNC_DROID_PATH/DCIM"
     rsync -trv . $LOCAL_DROID_PHOTOS_PATH/
@@ -132,11 +132,11 @@ _TestSSH() {
 #_TestSSH jbride 5
 
 case "$1" in
-    syncDroidWithLocal|syncLocalWithBackup|syncLocalWithDroid)
+    syncDroidFromLocal|syncLocalFromDroid|syncBackupFromLocal)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {syncDroidWithLocal|syncLocalWithBackup|syncLocalWithDroid}"
+    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncBackupFromLocal}"
     exit 1
 esac
 
