@@ -110,6 +110,16 @@ public class JMSTestClient {
 
             if(useDiscover) {
                 // use proprietary hornetq classes to discover brokers on the network
+
+                // upgrade to use latest hornetq API 
+                //UDPBroadcastGroupConfiguration udpCfg = new UDPBroadcastGroupConfiguration("231.7.7.7", 9876, null, -1);
+                //DiscoveryGroupConfiguration groupConfiguration = new DiscoveryGroupConfiguration(HornetQClient.DEFAULT_DISCOVERY_INITIAL_WAIT_TIMEOUT, HornetQClient.DEFAULT_DISCOVERY_INITIAL_WAIT_TIMEOUT, udpCfg);
+
+                //ConnectionFactory cf = (ConnectionFactory)HornetQJMSClient.createConnectionFactoryWithHA(groupConfiguration, JMSFactoryType.CF);
+
+                // We give a little while for each server to broadcast its whereabouts to the client
+                //Thread.sleep(2000);
+
                 DiscoveryGroupConfiguration groupConfiguration = new DiscoveryGroupConfiguration(discoverHost, discoverPort);
                 org.hornetq.jms.client.HornetQConnectionFactory hqcFactory = HornetQJMSClient.createConnectionFactoryWithHA(groupConfiguration, JMSFactoryType.QUEUE_CF);
                 hqcFactory.setReconnectAttempts(-1);
