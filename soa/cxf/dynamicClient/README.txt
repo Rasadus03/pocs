@@ -1,5 +1,5 @@
 Overview
-    - CXF JaxWsDynamicClientFactory is the implementation used in BPMS6 org.jbpm.process.workitem.bpmn2.ServiceTask
+    - CXF JaxWsDynamicClientFactory is the implementation used in BPMS6 org.jbpm.process.workitem.bpmn2.ServiceTaskHandler
     - This project isolates just the CXF client invoking a SOAP service
 
 1)  start EAP6.* in standalone mode
