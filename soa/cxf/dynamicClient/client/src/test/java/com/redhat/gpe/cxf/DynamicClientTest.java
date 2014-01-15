@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import org.acme.insurance.Policy;
+import org.acme.insurance.Driver;
 
 public class DynamicClientTest {
 
@@ -38,8 +39,17 @@ public class DynamicClientTest {
         ClassLoader cLoader = Class.forName("org.acme.insurance.Policy").getClassLoader();
         Client client = dcf.createClient(wLocation, new QName(nameSpace, interfaceRef), cLoader, null);
 
-        Object parameter = new Policy();
-        Object[] results = client.invoke(operationRef, parameter);
+        Policy policyObj = new Policy();
+        Driver driverObj = new Driver();
+        policyObj.setPolicyType("AUTO");
+        policyObj.setVehicleYear(2013);
+        policyObj.setDriver(driverObj);
+        driverObj.setDriverName("Azra");
+        driverObj.setAge(21);
+        driverObj.setSsn("233341234");
+        driverObj.setNumberOfAccidents(0);
+        driverObj.setNumberOfTickets(1);
+        Object[] results = client.invoke(operationRef, policyObj);
 
         for(Object result : results){
             log.info("invokeSoapService result = "+result);

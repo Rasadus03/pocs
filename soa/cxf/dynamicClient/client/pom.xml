@@ -13,7 +13,9 @@
     <interface_reference>AuditReview</interface_reference>
     <operation_reference>reviewQuote</operation_reference>
     <wsdl_location>http://localhost:8080/auditReview/AuditReview?wsdl</wsdl_location>
-    <namespace>urn:com.redhat.gpe.auditReview:1.0</namespace>
+
+    <!-- ensure the following matches the value of 'targetNamespace' in Jax-WS service
+    <namespace>org.acme.insurance</namespace>
   </properties>
 
   <build>
