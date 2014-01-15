@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.acme.insurance.Policy;
 
-@WebService(targetNamespace="org.acme.insurance",
+@WebService(targetNamespace="urn:com.redhat.gpe.auditReview:1.0",
             serviceName="AuditReview", 
             portName="AuditReviewPort")
 public class AuditReview implements IAuditReview {
