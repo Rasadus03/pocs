@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.redhat.gpe.pocs.jee</groupId>
-    <artifactId>jee</artifactId>
+    <groupId>com.redhat.gpe.pocs</groupId>
+    <artifactId>pocs</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.redhat.gpe.pocs.jee.web</groupId>
+  <groupId>com.redhat.gpe.pocs.web</groupId>
   <artifactId>web</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>

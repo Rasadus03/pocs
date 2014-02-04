@@ -4,13 +4,14 @@
     <property name="development.base" value="${ENV.JBOSS_PROJECTS}/pocs" />
     <import file="${development.base}/build.xml" />
 
-    <target name="deploy" description="" depends="clean" >
+    <target name="deploy" description="" >
 
         <!-- 1)  maven compile and build all sub-projects -->
         <exec executable="mvn" failonerror="true" dir="." >
             <arg value="clean" />
             <arg value="install"/>
             <arg value="-Dmaven.test.skip=true"/>
+            <arg value="-P${maven.profile}"/>
         </exec>
 
         <!-- 2)  refresh jboss -->

@@ -15,7 +15,6 @@
 
   <modules>
     <module>modules</module>
-    <module>web</module>
   </modules>
 
   <properties>

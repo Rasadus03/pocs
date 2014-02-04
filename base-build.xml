@@ -354,6 +354,7 @@
             <arg value="clean" />
             <arg value="-s" />
             <arg value="${maven.settings.file}" />
+            <arg value="-P${maven.profile}"/>
         </exec>
     </target>
 

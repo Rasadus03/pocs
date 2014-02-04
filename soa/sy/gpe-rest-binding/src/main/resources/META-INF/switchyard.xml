@@ -7,7 +7,7 @@
         <rest:contextPath>rest-binding</rest:contextPath>
       </rest:binding.rest>
       <sca:extensions>
-        <throttling maxRequests=".5" timePeriod="5000"/>
+        <throttling maxRequests="5" timePeriod="5000"/>
       </sca:extensions>
     </sca:service>
     <sca:service name="WarehouseService" promote="WarehouseService/WarehouseService">
