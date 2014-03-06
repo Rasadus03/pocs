@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
 
-	<distributable/>
-    <description>show headers</description>
+   <distributable/>
+   <description>show headers</description>
 
-	<servlet>
+   <servlet>
       <servlet-name>Faces Servlet</servlet-name>
       <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
    </servlet>
@@ -13,7 +13,7 @@
       <url-pattern>*.jsf</url-pattern>
    </servlet-mapping>
 
-    <!--security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>HtmlAdaptor</web-resource-name>
             <description>Test Security Framework</description>
@@ -24,7 +24,7 @@
         <auth-constraint>
             <role-name>*</role-name>
         </auth-constraint>
-    </security-constraint -->
+    </security-constraint>
 
     <login-config>
 <!--

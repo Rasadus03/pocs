@@ -1,1 +1,2 @@
-as per this thread:   https://community.jboss.org/thread/201765
+
+point browser to:  http://zareason:8330/sso-web0/

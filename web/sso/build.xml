@@ -17,6 +17,11 @@
         <!-- 2)  refresh jboss -->
         <antcall target="refresh.jboss" />
 
+        <!-- 3)  copy application-users.properties  to jboss 
+            includes user/passwd of:   admin/ratwater
+        -->
+        <copy file="conf/application-users.properties" todir="${jboss.home}/domain-lab/configuration" />
+
         <!-- 5)  deploy EJB singleton -->
         <antcall target="cli.batch">
             <param name="cli.source.dir" value="conf"/>
