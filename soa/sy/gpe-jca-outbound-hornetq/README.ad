@@ -1,16 +1,27 @@
-assumptions:
-    1) PFP provisioned EAP6.* environment with ha.group and sy-core-group 
+== Purpose:
+* expand upon SY's jca-outbound-hornetq quickstart to demonstrate the same scenario working in a high-availability environment.
 
-    2) PFP provisioned EAP6.* environment is configured with an additional 'passive' backup JVM as part of the ha.group
+== Overview:
+* 2 Hornetq messaging brokers are configured in HA via two server groups in domain-mode (yes, i know FSW6.0.0.GA doesn't support domain-mode).
+* hornetq-ra configured for UDP discovery of remote brokers
+* JCA producers and consumers in switchyard app fail seemlessly across brokers as fail-over occurs
+* JMS messages are not lost when broker fail-over occurs
+* provides light-weight, configurable JMS load-testing client 
+
+
+== assumptions:
+* PFP provisioned EAP6.* environment with ha.group and sy-core-group 
+
+* PFP provisioned EAP6.* environment is configured with an additional 'passive' backup JVM as part of the ha.group
        as per the following in $PFP_HOME/build.properties:
 
         ha.server.number.list=0,1
 
-    3) EAP6.* environment is active
+* EAP6.* environment is active
 
 
 
-execution:
+== execution:
     1)  from the root of this project, execute:   ant
         - configures JMS queues, bounces hornetq brokers and deploys SY app
 
@@ -23,7 +34,7 @@ execution:
         - this script induces broker fail-over
         - should observe hornetq thread contention in $JBOSS_HOME/domain-gpse/servers/sy-core-0/log/server.log
 
-Additional Notes:
+== Additional Notes:
     Hornetq behavior with network issues:
     HornetQ behaves as intended. The prepare command must receive a reply which it does not in this case, assumingly due to network problems, and therefore the XAException.XAER_RMERR exception is thrown. The same happens in the retry logic triggered by Arjuna. The attempt to call setTransactionTimeout is sending a command to set timeout and never receives reply, and as a result throws the exception. 
     
