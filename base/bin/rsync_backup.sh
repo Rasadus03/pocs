@@ -71,7 +71,7 @@ syncBackupFromLocal() {
 
     cd $VIRTUAL_MACHINES   
     echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* $RSYNC_PATH/virtual_machines    
+    rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    

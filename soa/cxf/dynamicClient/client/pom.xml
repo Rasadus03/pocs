@@ -68,20 +68,6 @@
       <scope>runtime</scope>
       <version>${version.wsdl4j}</version>
     </dependency>
-    <!--
-    <dependency>
-      <groupId>org.apache.neethi</groupId>
-      <artifactId>neethi</artifactId>
-      <scope>runtime</scope>
-      <version>${version.cxf}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.ws.xmlschema</groupId>
-      <artifactId>xmlschema-core</artifactId>
-      <scope>runtime</scope>
-      <version>${version.cxf}</version>
-    </dependency>
-    -->
 
 
     <dependency>
