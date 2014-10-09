@@ -5,9 +5,10 @@
 ### ======================================== ###
 
 PHOTOS_HOME=/u02/photos
-MUSIC_HOME=/u02/music
-CUSTOMERS_HOME=/u02/customers/oldSoftware
-MOVIES_HOME=/u02/movies
+AUDIO_HOME=/u02/audio
+CUSTOMERS_HOME=/u02/customers
+OLD_SOFTWARE_HOME=/u02/oldSoftware
+VIDEO_HOME=/u02/video
 DOWNLOADS_HOME=/u02/downloads
 VIRTUAL_MACHINES=/u02/virtual_machines
 RECORDINGS=/u02/redhat/recordings
@@ -37,9 +38,9 @@ syncBackupFromLocal() {
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi    
-    cd $MUSIC_HOME    
-    echo " ***** now synching in : $MUSIC_HOME at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* $RSYNC_PATH/music    
+    cd $AUDIO_HOME    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
+    rsync -trv --delete . --exclude=.* $RSYNC_PATH/audio    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
@@ -52,10 +53,18 @@ syncBackupFromLocal() {
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi    
+
+    cd $OLD_SOFTWARE_HOME    
+    echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
+    rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
         
-    cd $MOVIES_HOME    
-    echo " ***** now synching in : $MOVIES_HOME at :  $RSYNC_PATH"    
-    rsync -trv . --exclude=.* $RSYNC_PATH/movies    
+    cd $VIDEO_HOME    
+    echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
+    rsync -trv . --exclude=.* $RSYNC_PATH/video    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
@@ -69,14 +78,6 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
 
-    cd $VIRTUAL_MACHINES   
-    echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
-
     cd $RECORDINGS
     echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
     rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
@@ -84,11 +85,19 @@ syncBackupFromLocal() {
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi    
+
+    #cd $VIRTUAL_MACHINES   
+    #echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
+    #rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
+    #rsyncReturnCode=$?    
+    #if [ $rsyncReturnCode -ne 0 ];then    
+    #    exit 1;    
+    #fi    
 }
 
 syncDroidFromLocal() {
-    cd $MUSIC_HOME/default    
-    echo " ***** now synching in : $MUSIC_HOME at :  $RSYNC_DROID_PATH/Music/default"    
+    cd $AUDIO_HOME/default    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/Music/default"    
     rsync -trv --delete . $RSYNC_DROID_PATH/Music/default 
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
