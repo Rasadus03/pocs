@@ -1,6 +1,10 @@
 <!--
     TCP based transport
-    FILE_PING based discovery
+    FILE_PING based member discovery
+
+    sample execution:
+        java -cp $JBOSS_HOME_DIR/jboss-eap-6.3/modules/system/layers/base/org/jgroups/main/jgroups-3.2.13.Final-redhat-1.jar -Djava.net.preferIPv4Stack=true org.jgroups.demos.Draw -props https://raw.githubusercontent.com/jboss-gpe/pocs/master/jgroups/conf/file-ping.xml
+
 -->
 <config xmlns="urn:org:jgroups"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
