@@ -13,7 +13,7 @@
     <TCP bind_port="7600"/>
     <FILE_PING location="/tmp/jgroups" />
     <MERGE2/>
-    <FD_SOCK bind_port="57600"/>
+    <FD_SOCK/>
     <FD/>
     <VERIFY_SUSPECT/>
     <pbcast.NAKACK/>
