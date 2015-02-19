@@ -15,7 +15,6 @@ RECORDINGS=/u02/redhat/recordings
 
 REMOTE_USER=jbride
 REMOTE_IP=localhost
-#RSYNC_PATH=$REMOTE_USER@$REMOTE_IP:/media/seagate
 RSYNC_PATH="/run/media/jbride/_u03"
 
 RSYNC_DROID_PATH="/home/jbride/Misc/Nexus4/"
@@ -46,22 +45,15 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
         
-    cd $CUSTOMERS_HOME    
-    echo " ***** now synching in : $CUSTOMERS_HOME at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* --exclude=hp/sdm/jboss $RSYNC_PATH/customers    
+    cd $RECORDINGS
+    echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
+    #rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
+    rsync -trv . --exclude=.* $RSYNC_PATH/recordings    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
-    fi    
-
-    cd $OLD_SOFTWARE_HOME    
-    echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
-        
+    fi 
+   
     cd $VIDEO_HOME    
     echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/video    
@@ -69,22 +61,30 @@ syncBackupFromLocal() {
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi    
-        
-    cd $DOWNLOADS_HOME    
-    echo " ***** now synching in : $DOWNLOADS_HOME at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* $RSYNC_PATH/downloads    
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
 
-    cd $RECORDINGS
-    echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
+    #cd $CUSTOMERS_HOME    
+    #echo " ***** now synching in : $CUSTOMERS_HOME at :  $RSYNC_PATH"    
+    #rsync -trv --delete . --exclude=.* --exclude=hp/sdm/jboss $RSYNC_PATH/customers    
+    #rsyncReturnCode=$?    
+    #if [ $rsyncReturnCode -ne 0 ];then    
+    #    exit 1;    
+    #fi    
+
+    #cd $OLD_SOFTWARE_HOME    
+    #echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
+    #rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
+    #rsyncReturnCode=$?    
+    #if [ $rsyncReturnCode -ne 0 ];then    
+    #    exit 1;    
+    #fi    
+        
+    #cd $DOWNLOADS_HOME    
+    #echo " ***** now synching in : $DOWNLOADS_HOME at :  $RSYNC_PATH"    
+    #rsync -trv --delete . --exclude=.* $RSYNC_PATH/downloads    
+    #rsyncReturnCode=$?    
+    #if [ $rsyncReturnCode -ne 0 ];then    
+    #    exit 1;    
+    #fi    
 
     #cd $VIRTUAL_MACHINES   
     #echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
