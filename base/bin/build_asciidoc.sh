@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# usage:  build_asciidoc.sh /path/to/asciidoc/source/content -maxWidth=1366px 
+# usage:  build_asciidoc.sh /path/to/asciidoc/source/content -maxWidth=1366px -slidy
 
 
 echo "############################################################################################################################### "
@@ -13,6 +13,9 @@ do
         -maxWidth=*)
             -maxWidth=`echo $var | cut -f2 -d\=`
             ;;
+        -slidy)
+            slidy=slidy
+            ;;
     esac
 done
 
@@ -21,20 +24,26 @@ if [ "x$maxWidth" = "x" ]; then
 fi
 
 
-ASCIIDOC_SLIDE="asciidoc -f $JBOSS_PROJECTS/pocs/base/common/conf/slidy.conf -b html5 -a max-width=$maxWidth -a icons --theme=gpe_slide_theme -a encoding=ISO-8859-1"
+ASCIIDOC_LMS="asciidoc -f $JBOSS_PROJECTS/pocs/base/common/conf/html5.conf -b html5 -a max-width=$maxWidth -a icons --theme=gpe_slide_theme -a encoding=ISO-8859-1"
+ASCIIDOC_ILT="asciidoc -f $JBOSS_PROJECTS/pocs/base/common/conf/slidy.conf -b html5 -a max-width=$maxWidth -a icons --theme=gpe_theme"
 
+ROOT_OUTDIR=/tmp/generated
 DIRNAME=`basename $@`
 OUTDIR=target
 
 function process_asciidoc {
-    rm -rf "$DIRNAME/$OUTDIR"
-    mkdir -p "$DIRNAME/$OUTDIR"
+    rm -rf "$ROOT_OUTDIR/$DIRNAME/$OUTDIR"
+    mkdir -p "$ROOT_OUTDIR/$DIRNAME/$OUTDIR"
     for INPUT in  $@ ; do
         # If a file ending in "AllSlides.txt" then process with AsciiDoc.
         if [ -f $INPUT ] && [ `echo $INPUT | grep -c -e "AllSlides.txt$"` == 1 ]; then
             echo "Processing All from:  $INPUT"
             OUTPUT=`basename $INPUT .txt`
-            $ASCIIDOC_SLIDE --out-file $DIRNAME/$OUTDIR/$OUTPUT.html $INPUT;
+            if [ "x$slidy" = "x" ]; then
+                $ASCIIDOC_LMS --out-file $ROOT_OUTDIR/$DIRNAME/$OUTDIR/$OUTPUT.html $INPUT;
+            else
+                $ASCIIDOC_ILT --out-file $ROOT_OUTDIR/$DIRNAME/$OUTDIR/$OUTPUT.html $INPUT;
+            fi
 
 	# Else if a directory, process its contents.
         elif [ -d $INPUT ] ; then
@@ -49,6 +58,6 @@ function process_asciidoc {
 process_asciidoc $@
 
 echo "############################################################################################################################### "
-echo "	BUILD COMPLETE:  The output of this build can be found in the $DIRNAME/$OUTDIR folder."
+echo "	BUILD COMPLETE:  The output of this build can be found in the $ROOT_OUTDIR/$DIRNAME/$OUTDIR directory."
 echo "############################################################################################################################### "
 
