@@ -24,7 +24,7 @@ LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/Nexus4
 syncBackupFromLocal() {
     cd $HOME    
     echo " ***** now synching in : $RSYNC_PATH with $HOME"    
-    rsync -trv --delete . --include=.bashrc --include=./My\ Kindle\ Content --include=.ssh --include=.m2 --exclude=.* --exclude=downloads $RSYNC_PATH/jbride    
+    rsync -trv --delete . --include=.bashrc --include=./My\ Kindle\ Content --include=.ssh --include=.m2 --include=.gnupg --exclude=.* --exclude=downloads $RSYNC_PATH/jbride    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
@@ -39,7 +39,7 @@ syncBackupFromLocal() {
     fi    
     cd $AUDIO_HOME    
     echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
-    rsync -trv --delete . --exclude=.* $RSYNC_PATH/audio    
+    rsync -trv . --exclude=.* $RSYNC_PATH/audio    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
