@@ -3,17 +3,17 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.AbstractVerticle;
 import java.util.function.Consumer;
 
-// execute: /opt/jboss/vert.x-3.0.0-milestone6/bin/vertx run Server.java
+// execute: /opt/jboss/vert.x-3.0.0-milestone6/bin/vertx run HttpServer.java
 /*
  * * @author <a href="http://tfox.org">Tim Fox</a>
  * */
-public class Server extends AbstractVerticle {
+public class HttpServer extends AbstractVerticle {
 
     private static final String CORE_EXAMPLES_DIR = "core-examples";
     private static final String CORE_EXAMPLES_JAVA_DIR = CORE_EXAMPLES_DIR + "/src/main/java/";
 
     public static void main(String[] args) {
-        Class verticleId = Server.class;
+        Class verticleId = HttpServer.class;
         String exampleDir = CORE_EXAMPLES_JAVA_DIR + verticleId.getPackage().getName().replace(".", "/");
         VertxOptions options = new VertxOptions().setClustered(false);
         System.setProperty("vertx.cwd", exampleDir);
