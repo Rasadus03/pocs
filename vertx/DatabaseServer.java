@@ -9,6 +9,7 @@ import io.vertx.ext.asyncsql.AsyncSQLClient;
 import java.util.function.Consumer;
 
 // execute: /opt/jboss/vert.x-3.0.0-milestone6/bin/vertx run DatabaseServer.java
+// vertx-mysql-postgresql-client documentation:   file:///u01/jboss/community/vertx/vertx-mysql-postgresql-client/target/docs/vertx-mysql-postgresql-client/java/index.html
 /*
  * * @author <a href="http://tfox.org">Tim Fox</a>
  * */
