@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ### ======================================== ###
-###    JA Bride , 29 Nov 2010           ###
+###    JA Bride , 29 Nov 2010                ###
 ### ======================================== ###
 
 PHOTOS_HOME=/u02/photos
@@ -17,7 +17,9 @@ REMOTE_USER=jbride
 REMOTE_IP=localhost
 RSYNC_PATH="/run/media/jbride/_u03"
 
-RSYNC_DROID_PATH="/home/jbride/Misc/Nexus4/"
+# simple-mtpfs $HOME/hardware/Nexus4
+# sudo umount $HOME/hardware/Nexus4/
+RSYNC_DROID_PATH="$HOME/hardware/Nexus4/"
 LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/Nexus4
 
 
@@ -106,17 +108,25 @@ syncDroidFromLocal() {
 }
 
 syncLocalFromDroid() {
+    if [ ! -d "$RSYNC_DROID_PATH" ]; then
+        echo "$RSYNC_DROID_PATH does not exist";
+        exit 1;
+    fi
+    if [ ! -d "$LOCAL_DROID_PHOTOS_PATH" ]; then
+        echo "$LOCAL_DROID_PHOTOS_PATH does not exist";
+        exit 1;
+    fi
     cd $RSYNC_DROID_PATH/DCIM
     echo " ***** now synching in : $LOCAL_DROID_PHOTOS_PATH with $RSYNC_DROID_PATH/DCIM"
-    rsync -trv . $LOCAL_DROID_PHOTOS_PATH/
+    rsync -trv . $LOCAL_DROID_PHOTOS_PATH/DCIM
     rsyncReturnCode=$?
     if [ $rsyncReturnCode -ne 0 ];then
         exit 1;
     fi
 
     cd $RSYNC_DROID_PATH/Download
-    echo " ***** now synching in : $LOCAL_DROID_PHOTOS_PATH with $RSYNC_DROID_PATH/download"
-    rsync -trv . --include=*.jpeg $LOCAL_DROID_PHOTOS_PATH
+    echo " ***** now synching in : $LOCAL_DROID_PHOTOS_PATH/download with $RSYNC_DROID_PATH/download"
+    rsync -trv . --include=*.jpeg $LOCAL_DROID_PHOTOS_PATH/download
     rsyncReturnCode=$?
     if [ $rsyncReturnCode -ne 0 ];then
         exit 1;
