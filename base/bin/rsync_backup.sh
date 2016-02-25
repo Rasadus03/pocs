@@ -17,9 +17,9 @@ REMOTE_USER=jbride
 REMOTE_IP=localhost
 RSYNC_PATH="/run/media/jbride/_u03"
 
-# simple-mtpfs $HOME/hardware/Nexus4
-# sudo umount $HOME/hardware/Nexus4/
-RSYNC_DROID_PATH="$HOME/hardware/Nexus4/"
+# simple-mtpfs $HOME/phone
+# sudo umount $HOME/phone
+RSYNC_DROID_PATH="$HOME/phone/"
 LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/Nexus4
 
 
@@ -38,7 +38,8 @@ syncBackupFromLocal() {
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
-    fi    
+    fi
+    
     cd $AUDIO_HOME    
     echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/audio    
