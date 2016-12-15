@@ -16,6 +16,7 @@
   <modules>
     <module>sso</module>
     <module>simplejsp</module>
+    <module>mvn-quickstart</module>
   </modules>
 
   <properties>
