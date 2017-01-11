@@ -4,7 +4,7 @@
 
 .Goals
 . Demonstrate simple JAX-RS web app
-. Demonstrate use of Per-deployment Logging of an application that is writing exclusively to:  System.out.println
+. Demonstrate use of `Per-deployment Logging` of an application that is writing exclusively to:  System.out.println
 
 == Pre-reqs:
 
